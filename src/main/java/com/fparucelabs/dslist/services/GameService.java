@@ -1,8 +1,11 @@
 package com.fparucelabs.dslist.services;
 
+import com.fparucelabs.dslist.dto.GameDTO;
 import com.fparucelabs.dslist.dto.GameMinDTO;
 import com.fparucelabs.dslist.repositories.GameRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,7 +18,14 @@ public class GameService {
         this.gameRepository = gameRepository;
     }
 
+    @Transactional(readOnly = true)
     public List<GameMinDTO> findAll() {
         return gameRepository.findAll().stream().map(GameMinDTO::new).toList();
     }
+
+    @Transactional(readOnly = true)
+    public GameDTO findById(Long id) {
+        return gameRepository.findById(id)
+                .map(GameDTO::new)
+                .orElseThrow(() -> new EntityNotFoundException("Game not found with id: " + id));}
 }

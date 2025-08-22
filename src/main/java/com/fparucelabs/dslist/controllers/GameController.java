@@ -1,8 +1,10 @@
 package com.fparucelabs.dslist.controllers;
 
+import com.fparucelabs.dslist.dto.GameDTO;
 import com.fparucelabs.dslist.dto.GameMinDTO;
 import com.fparucelabs.dslist.services.GameService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,5 +23,10 @@ public class GameController {
     @GetMapping
     public List<GameMinDTO> findAll() {
         return gameService.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public GameDTO findById(@PathVariable Long id) {
+        return gameService.findById(id);
     }
 }
