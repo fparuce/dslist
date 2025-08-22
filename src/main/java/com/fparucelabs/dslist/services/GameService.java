@@ -2,8 +2,10 @@ package com.fparucelabs.dslist.services;
 
 import com.fparucelabs.dslist.dto.GameDTO;
 import com.fparucelabs.dslist.dto.GameMinDTO;
+import com.fparucelabs.dslist.exceptions.DomainException;
 import com.fparucelabs.dslist.repositories.GameRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,5 +29,5 @@ public class GameService {
     public GameDTO findById(Long id) {
         return gameRepository.findById(id)
                 .map(GameDTO::new)
-                .orElseThrow(() -> new EntityNotFoundException("Game not found with id: " + id));}
+                .orElseThrow(() -> new DomainException("Game not found with id: " + id, HttpStatus.NOT_FOUND.value()));}
 }
