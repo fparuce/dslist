@@ -29,5 +29,14 @@ public class GameService {
     public GameDTO findById(Long id) {
         return gameRepository.findById(id)
                 .map(GameDTO::new)
-                .orElseThrow(() -> new DomainException("Game not found with id: " + id, HttpStatus.NOT_FOUND.value()));}
+                .orElseThrow(() -> new DomainException("Game not found with id: " + id, HttpStatus.NOT_FOUND.value()));
+    }
+
+    @Transactional(readOnly = true)
+    public List<GameMinDTO> findByList(Long listId) {
+        return gameRepository.searchByList(listId)
+                .stream()
+                .map(GameMinDTO::new)
+                .toList();
+    }
 }
